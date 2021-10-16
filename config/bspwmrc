@@ -1,0 +1,54 @@
+#!/bin/sh
+
+#
+# AUTOSTART
+#
+pgrep -x sxhkd > /dev/null || sxhkd &
+nitrogen --restore &
+compton &
+XDG_SESSION_TYPE=x11 plank &
+$HOME/.config/polybar/launch.sh &
+export GTK2_RC_FILES="$HOME/.gtkrc-2.0" &
+
+#
+# MONITORS
+#
+bspc monitor DP-4 -d I II III IV V VI
+bspc monitor HDMI-0 -d VII VIII
+bspc monitor DP-1 -d IX X X1 X11
+
+#
+# VERTICAL MONITOR
+#
+xrandr --output HDMI-0 --rotate right
+
+#
+# STYLE
+#
+bspc config border_width          2
+bspc config border_radius         0
+bspc config window_gap            32
+bspc config normal_border_color   \#787c99
+bspc config focused_border_color  \#7aa2f7
+
+#
+# PLANK PADDING ON MAIN MONITOR
+#
+bspc config bottom_padding 0
+bspc config -m DP-4 bottom_padding 55
+
+#
+# DEFAULTS
+#
+bspc config split_ratio          0.50
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+#
+# RULES
+#
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a Chromium desktop='^2'
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
